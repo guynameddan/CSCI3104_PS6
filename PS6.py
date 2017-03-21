@@ -76,6 +76,7 @@ def extractAlignment(S):
 
 	while rows>0 or columns>0:
 		currentOps=[]
+
 		if rows>0:
 			indelUp=S[rows-1][columns]
 			print("up " + str(indelUp))
@@ -95,29 +96,39 @@ def extractAlignment(S):
 		least=min(sub, swap, indelLeft, indelUp)
 		string=["sub","swap","indelLeft","indelUp"]
 		L = [sub, swap, indelLeft, indelUp]
-		index=0
+
 		print("list is" + str(least))
+		index=0
 		for var in L: #find values that are mins
 			if var==least:
 				currentOps.append(index)
-				print (index)
+				print(index)
 			index=index+1
 
-		randIndex=randrange(0,len(currentOps)) #choose a random minimum if theres a tie
-		stringIndex=currentOps[randIndex]
-		op=string[stringIndex]
-		print("operationg chosen " + op)
-		ops.append(op)
-		if stringIndex==0:
-			columns = columns - 1
-			rows = rows - 1
-		if stringIndex==1:
-			columns = columns - 2
-			rows = rows - 2
-		if stringIndex==2:
-			columns = columns - 1
-		if stringIndex==3:
-			rows = rows - 1
+		if S[rows-1][columns-1] == S[rows][columns]: #no op
+			ops.append("no op")
+			rows=rows-1
+			columns=columns-1
+
+		else:
+			randIndex=randrange(0,len(currentOps)) #choose a random minimum if theres a tie
+			stringIndex=currentOps[randIndex]
+			op=string[stringIndex]
+			#print("operationg chosen " + op)
+			ops.append(op)
+
+			#decide which direction to move in table
+			if stringIndex==0:
+				columns = columns - 1
+				rows = rows - 1
+			if stringIndex==1:
+				columns = columns - 2
+				rows = rows - 2
+			if stringIndex==2:
+				columns = columns - 1
+			if stringIndex==3:
+				rows = rows - 1
+
 	print(ops)
 
 		#print (min(sub, swap, indelLeft, indelUp))

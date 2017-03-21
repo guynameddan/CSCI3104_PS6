@@ -1,6 +1,6 @@
 import numpy
 x="abc"
-y="cde"
+y="ghi"
 #add blank spaces
 x= " " + x
 y= " " + y
@@ -15,34 +15,34 @@ print(nx)
 
 def cost(i,j):
 	c_indel=1
-	c_sub=10
-	c_swap=10
+	c_sub=1
+	c_swap=1
 	#print(S)
-
-	#print(S[i][j])
+	sub=0
+	swap=10000
 	print("i is " + str(i) + " x[i] is " + x[i-1] + " j is " + str(j) + " y[j] is " + str(y[j-1]))
 
 	if x[i]==y[j]: #sub operation
-		c_sub=S[i-1][j-1]
-		#S[i][i]=S[i-1][i-1]
+		sub=S[i-1][j-1]
 	else:
-		c_sub=c_sub+S[i-1][j-1]
+		sub=c_sub+S[i-1][j-1]
 
-	c_indel1 = 100 # c_indel + S[i][j-1]
-	c_indel2 = 100 #c_indel + S[i][j-1]
+	#c_indel1 = 100 # c_indel + S[i][j-1]
+	#c_indel2 = 100 #c_indel + S[i][j-1]
 
 	if j>2 and i>2: #swap op
 		#if x[]
-		c_swap=c_swap+S[i-2][j-2]
+		swap = 0
+		swap=c_swap+S[i-2][j-2]
 		if x[i-1] != y[j]:
-			c_swap=c_swap+10
+			swap=swap+c_sub
 		if x[i] != y[j-1]:
-			c_swap =c_swap+10
+			swap=swap+c_sub
 		#S[i][i] = S[i-2][i-2] + c_swap
-	#print ("c_sub is " + str(c_sub) + " c_swap " + str(c_swap) + " c_indel " + str(c_indel))
-	print("min is " + str(min(c_sub,c_swap,c_indel1,c_indel2)))
+	print ("c_sub is " + str(sub) + " c_swap " + str(swap))# + " c_indel " + str(c_indel))
+	print("min is " + str(min(sub,swap)))#,c_indel1,c_indel2)))
 
-	S[i][j]=min(c_sub,c_swap,c_indel1,c_indel2)
+	S[i][j]=min(sub,swap)#,c_indel1,c_indel2)
 
 def alignStrings():
 	#cost(S,1,2)

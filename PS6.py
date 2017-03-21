@@ -105,29 +105,36 @@ def extractAlignment(S):
 				print(index)
 			index=index+1
 
-		if S[rows-1][columns-1] == S[rows][columns]: #no op
-			ops.append("no op")
-			rows=rows-1
-			columns=columns-1
+		print ("current ops are " + str(currentOps))
+		if 0 in currentOps and 1 in currentOps:
+			print("current ops is " + str(currentOps))
+			currentOps.pop(1)
+			print("now it is "+ str(currentOps))
 
+		randIndex=randrange(0,len(currentOps)) #choose a random minimum if theres a tie
+		stringIndex=currentOps[randIndex]
+
+		if stringIndex == 0: # if its a sub operation check if its a sub or no op
+			if S[rows-1][columns-1]==S[rows][columns]: # if no op
+				ops.append("no ops " + " rows are " + str(rows) + " columns are " + str(columns))
+			else:
+				ops.append("sub "+" rows are " + str(rows) + " columns are " + str(columns))
 		else:
-			randIndex=randrange(0,len(currentOps)) #choose a random minimum if theres a tie
-			stringIndex=currentOps[randIndex]
-			op=string[stringIndex]
-			#print("operationg chosen " + op)
-			ops.append(op)
+			op = string[stringIndex]
+			# print("operationg chosen " + op)
+			ops.append(op + " rows are " + str(rows) + " columns are " + str(columns))
 
-			#decide which direction to move in table
-			if stringIndex==0:
-				columns = columns - 1
-				rows = rows - 1
-			if stringIndex==1:
-				columns = columns - 2
-				rows = rows - 2
-			if stringIndex==2:
-				columns = columns - 1
-			if stringIndex==3:
-				rows = rows - 1
+	#decide which direction to move in table
+		if stringIndex==0:
+			columns = columns - 1
+			rows = rows - 1
+		if stringIndex==1:
+			columns = columns - 2
+			rows = rows - 2
+		if stringIndex==2:
+			columns = columns - 1
+		if stringIndex==3:
+			rows = rows - 1
 
 	print(ops)
 

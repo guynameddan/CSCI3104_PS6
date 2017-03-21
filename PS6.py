@@ -1,7 +1,9 @@
 import numpy
 from random import randrange
-x="exponential"
-y="polynomial"
+x="abcde"
+y="cd"
+#x="exponential"
+#y="polynomial"
 #add blank spaces
 x= " " + x
 y= " " + y
@@ -71,7 +73,6 @@ def extractAlignment(S):
 	rows=len(S)-1
 	print(rows)
 	print(columns)
-	print S[11][10]
 	print S
 
 	while rows>0 or columns>0:
@@ -116,7 +117,7 @@ def extractAlignment(S):
 
 		if stringIndex == 0: # if its a sub operation check if its a sub or no op
 			if S[rows-1][columns-1]==S[rows][columns]: # if no op
-				ops.append("no ops " + " rows are " + str(rows) + " columns are " + str(columns))
+				ops.append("no ops" + " rows are " + str(rows) + " columns are " + str(columns))
 			else:
 				ops.append("sub "+" rows are " + str(rows) + " columns are " + str(columns))
 		else:
@@ -139,8 +140,30 @@ def extractAlignment(S):
 	print(ops)
 
 		#print (min(sub, swap, indelLeft, indelUp))
+def commonSubstring(S,l):
+	subStrings=[]
+	print(len(S))
+	print(len(S[0]))
+	print(l)
+	noop=True
 
+	for i in range(l,len(S[0])): #iterate through
+		currString=[]
+		print "     i is " + str(i)
+		for j in range(l,len(S)):
+			print("j is" + str(j))
+			if S[i][i]!=S[i-1][i-1]:
+				noop=False
+			else:
+				print(S[i][i])
+				currString.append(S[i][i])
+		print currString
+		if noop==True:
+			print currString
+			subStrings.append(currString)
+
+print(commonSubstring(alignStrings(),2))
 
 #print(alignStrings())
-print(extractAlignment(alignStrings()))
+#print(extractAlignment(alignStrings()))
 

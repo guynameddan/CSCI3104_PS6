@@ -18,17 +18,32 @@ def cost(i,j):
 	c_sub=1
 	c_swap=1
 	#print(S)
-	sub=0
-	swap=10000 #initializ swap so it isn't chosen until its in bounds (swap doesn't make sense till i=1, j=1
-	print("i is " + str(i) + " x[i] is " + x[i-1] + " j is " + str(j) + " y[j] is " + str(y[j-1]))
-	c_indel1 = c_indel + S[i][j-1]
+	sub=None
+	c_indelUp=None
+	c_indelLeft=None
+	swap=None #initializ swap so it isn't chosen until its in bounds (swap doesn't make sense till i=1, j=1
+	#print("i is " + str(i) + " x[i] is " + x[i-1] + " j is " + str(j) + " y[j] is " + str(y[j-1]))
 
-	if x[i]==y[j]: #sub operation
-		sub=S[i-1][j-1]
-	else:
-		sub=c_sub+S[i-1][j-1]
-	if j==1:
-		c_indel2 = c_indel + S[i-1][j]
+	print( "left"+str(S[i][j-1]))
+
+	if i==0 and j==0:
+		c_indelLeft=0
+	if j>0:
+		c_indelLeft = c_indel + S[i][j-1]
+
+	if i>0: #only use top indel if i>0
+		print("i is greater ")
+		c_indelUp = c_indel + S[i - 1][j]
+
+	if i>0 and j>0:#sub operation
+		if x[i]==y[j]: #no op
+			sub=S[i-1][j-1]
+		else:
+			print("i is " + str(i)+ "j is " + str(j))
+			print("previous sub is " + str(S[i-1][j-1]))
+			sub=c_sub+S[i-1][j-1]
+		print("top is " + str(c_indelUp))
+
 
 	if j>2 and i>2: #swap op
 		swap = 0
@@ -37,25 +52,23 @@ def cost(i,j):
 			swap=swap+c_sub
 		if x[i] != y[j-1]:
 			swap=swap+c_sub
-		#S[i][i] = S[i-2][i-2] + c_swap
-	print ("c_sub is " + str(sub) + " c_swap " + str(swap) + " c_indel1 " + str(c_indel1) + " c_indel2 " + str(c_indel2) + "\n")
-	#print("min is " + str(min(sub,swap,c_indel2,c_indel1)))#,c_indel1,c_indel2)))
 
-	S[i][j]=min(sub,swap,c_indel1,c_indel2)
+	#print ("c_sub is " + str(sub) + " c_swap " + str(swap) + " c_indel left " + str(c_indelLeft) + " c_indel2 ")# + str(c_indelUp) + "\n")
+	#print("min is " + str(min(sub,swap,c_indel2,c_indel1)))#,c_indel1,c_indel2)))
+	S[i][j]=min(value for value in [sub,swap,c_indelLeft,c_indelUp] if value is not None)
 
 def alignStrings():
 	#cost(S,1,2)
-	print(S)
-	print(ny)
-	print(nx)
-	i=1
-	for j in range(1,ny):
+	for i in range(0,nx):
 		#print("i is" + str(i))
-		cost(i, j)
-		#for j in range (1,ny):
-			#print ("j is" + str(j))
-			#cost(i,j)
+		#cost(i, j)
+
+		for j in range (0,ny):
+			print ("j is" + str(j))
+			cost(i,j)
 	print(S)
+
+
 
 print(alignStrings())
 # having trouble with the cost function guys.

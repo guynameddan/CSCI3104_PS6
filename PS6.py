@@ -1,7 +1,7 @@
 import numpy
 from random import randrange
-x="abcde"
-y="cd"
+x="abcdefg"
+y="cdef"
 #x="exponential"
 #y="polynomial"
 #add blank spaces
@@ -152,7 +152,9 @@ def commonSubstring(S,l):
 		print "     i is " + str(i)
 		for j in range(l,len(S)):
 			print("j is" + str(j))
-			if S[i][i]!=S[i-1][i-1]:
+			
+			print("start is " + str(S[i][j]) + " next is " + str(S[i - 1][j - 1]))
+			if S[i][j]!=S[i-1][j-1]:
 				noop=False
 			else:
 				print(S[i][i])

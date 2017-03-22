@@ -1,7 +1,7 @@
 import numpy
 from random import randrange
-x="abcdefg"
-y="cdef"
+y="abcdeaghcdewwjcde"
+x="cde"
 #x="exponential"
 #y="polynomial"
 #add blank spaces
@@ -140,31 +140,47 @@ def extractAlignment(S):
 	print(ops)
 
 		#print (min(sub, swap, indelLeft, indelUp))
+
 def commonSubstring(S,l):
+
 	subStrings=[]
 	print(len(S))
 	print(len(S[0]))
 	print(l)
-	noop=True
-
-	for i in range(l,len(S[0])): #iterate through
+	#print(S[14][4])
+	for j in range(len(S[0])-1,0,-1): #iterate through
+		noop = True
 		currString=[]
-		print "     i is " + str(i)
-		for j in range(l,len(S)):
+		#print "     i is " + str(i)
+		for i in range(len(S)-1,0,-1):
 			print("j is" + str(j))
-			
+			print ("i is " + str(i))
 			print("start is " + str(S[i][j]) + " next is " + str(S[i - 1][j - 1]))
-			if S[i][j]!=S[i-1][j-1]:
-				noop=False
-			else:
-				print(S[i][i])
-				currString.append(S[i][i])
+			#print("comparison is " + str(x[i]) + y[j])
+			diagonal1=i
+			diagonal2=j
+			count=0
+			while noop:
+				#print("diagonal 1 is " + str(diagonal1)+ " diagonal 2 is " + str(diagonal2) )
+				if S[diagonal1][diagonal2]!=S[diagonal1-1][diagonal2-1]:
+					noop=False
+				if diagonal1>0 or diagonal2>0:
+					print("matched letters are " + x[diagonal1] + " and " + y[diagonal2])
+					currString.append(x[diagonal1])
+					diagonal1=diagonal1-1
+					diagonal2=diagonal2-1
+					count=count+1
+				if count>l:
+					subStrings.append(currString.reverse())
+					noop=False
+
 		print currString
 		if noop==True:
 			print currString
-			subStrings.append(currString)
+			#subStrings.append(currString)
 
 print(commonSubstring(alignStrings(),2))
+
 
 #print(alignStrings())
 #print(extractAlignment(alignStrings()))

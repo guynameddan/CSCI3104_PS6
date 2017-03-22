@@ -3,6 +3,7 @@ from random import randrange
 y="polynomial"
 x="exponential"
 
+#ive changed things here notice it github!
 #x="exponential"
 #y="polynomial"
 #add blank spaces

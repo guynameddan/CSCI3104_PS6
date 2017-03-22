@@ -1,7 +1,8 @@
 import numpy
 from random import randrange
-y="abcdeaghcdewwjcde"
-x="cde"
+y="polynomial"
+x="exponential"
+
 #x="exponential"
 #y="polynomial"
 #add blank spaces

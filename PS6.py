@@ -6,8 +6,8 @@ from random import randrange
 #x="exponential"
 #y="polynomial"
 #add blank spaces
-#longString=open("PS6DataFiles/csci3104_S2017_PS6_data_string_x.txt","r").read()
-#subString=open("PS6DataFiles/csci3104_S2017_PS6_data_string_y.txt","r").read()
+longString=open("PS6DataFiles/csci3104_S2017_PS6_data_string_x.txt","r").read()
+subString=open("PS6DataFiles/csci3104_S2017_PS6_data_string_y.txt","r").read()
 #longString="abcdefgh"
 #subString="abcde"
 

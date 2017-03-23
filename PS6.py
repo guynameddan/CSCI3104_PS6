@@ -1,28 +1,24 @@
-import numpy
 from random import randrange
-y="polynomial"
-x="exponential"
+#y="abcdefg"
+#x="abcdefg"
+#x="abxfg"
 
-#ive changed things here notice it github!
 #x="exponential"
 #y="polynomial"
 #add blank spaces
-x= " " + x
-y= " " + y
+#longString=open("PS6DataFiles/csci3104_S2017_PS6_data_string_x.txt","r").read()
+#subString=open("PS6DataFiles/csci3104_S2017_PS6_data_string_y.txt","r").read()
+#longString="abcdefgh"
+#subString="abcde"
 
-nx = len(x)
-ny = len(y)
 
 #S = numpy.zeros((nx, ny),dtype=numpy.int)  # add row of zeros
-S = [[0]*ny for i in range(nx)]
-print(S)
-print(ny)
-print(nx)
-
-def cost(i,j):
+def cost(x,y,i,j,S):
+	x = " " + x
+	y = " " + y
 	c_indel=1
-	c_sub=1
-	c_swap=1
+	c_sub=10
+	c_swap=10
 	#print(S)
 	sub=None
 	c_indelUp=None
@@ -60,59 +56,61 @@ def cost(i,j):
 	#print("min is " + str(min(sub,swap,c_indel2,c_indel1)))#,c_indel1,c_indel2)))
 	S[i][j]=min(value for value in [sub,swap,c_indelLeft,c_indelUp] if value is not None)
 
-def alignStrings():
+def alignStrings(x,y):
+	nx = len(x)+1
+	ny = len(y)+1
+	S = [[0] * ny for i in range(nx)]
 	for i in range(0,nx):
 		for j in range (0,ny):
-			cost(i,j)
-	for row in S:
-		print (str(row) + "\n")
+			cost(x,y,i,j,S)
+	#for row in S:
+		#print (str(row) + "\n")
 	return S
 
 def extractAlignment(S):
 	ops=[]
-	print("in function")
 	columns=len(S[0])-1
 	rows=len(S)-1
-	print(rows)
-	print(columns)
-	print S
+	#print(rows)
+	#print(columns)
+	#print S
 
 	while rows>0 or columns>0:
 		currentOps=[]
 
 		if rows>0:
 			indelUp=S[rows-1][columns]
-			print("up " + str(indelUp))
+			#print("up " + str(indelUp))
 
 		if columns>0:
 			indelLeft=S[rows][columns-1]
-			print("left " + str(indelLeft))
+			#print("left " + str(indelLeft))
 
 		if rows>0 and columns>0:
 			sub=S[rows-1][columns-1]
-			print ("sub " + str(sub))
+			#print ("sub " + str(sub))
 
 		if rows>1 and columns>1:
 			swap=S[rows-2][columns-2]
-			print("swap " + str(swap))
+			#print("swap " + str(swap))
 
 		least=min(sub, swap, indelLeft, indelUp)
 		string=["sub","swap","indelLeft","indelUp"]
 		L = [sub, swap, indelLeft, indelUp]
 
-		print("list is" + str(least))
+		#print("list is" + str(least))
 		index=0
 		for var in L: #find values that are mins
 			if var==least:
 				currentOps.append(index)
-				print(index)
+				#print(index)
 			index=index+1
 
-		print ("current ops are " + str(currentOps))
+		#print ("current ops are " + str(currentOps))
 		if 0 in currentOps and 1 in currentOps:
-			print("current ops is " + str(currentOps))
+			#print("current ops is " + str(currentOps))
 			currentOps.pop(1)
-			print("now it is "+ str(currentOps))
+			#print("now it is "+ str(currentOps))
 
 		randIndex=randrange(0,len(currentOps)) #choose a random minimum if theres a tie
 		stringIndex=currentOps[randIndex]
@@ -143,47 +141,61 @@ def extractAlignment(S):
 
 		#print (min(sub, swap, indelLeft, indelUp))
 
-def commonSubstring(S,l):
+def commonSubstring(x,l,S):
+	x=" " + x
+	if l>len(x):
+		return "error"
 
 	subStrings=[]
-	print(len(S))
-	print(len(S[0]))
-	print(l)
+	#print(len(S))
+	#print(len(S[0]))
+	#print(l)
+	currString=[]
 	#print(S[14][4])
 	for j in range(len(S[0])-1,0,-1): #iterate through
 		noop = True
 		currString=[]
 		#print "     i is " + str(i)
+		#print("j is" + str(j))
 		for i in range(len(S)-1,0,-1):
-			print("j is" + str(j))
-			print ("i is " + str(i))
-			print("start is " + str(S[i][j]) + " next is " + str(S[i - 1][j - 1]))
+			#print ("      i is " + str(i))
+			#print("start is " + str(S[i][j]) + " next is " + str(S[i - 1][j - 1]))
 			#print("comparison is " + str(x[i]) + y[j])
 			diagonal1=i
 			diagonal2=j
 			count=0
-			while noop:
+			currString=[]
+
+			while diagonal1>0 or diagonal2>0:
+				sub = S[diagonal1 - 1][diagonal2 - 1]
+				indelLeft = S[diagonal1 - 1][diagonal2]
+				indelUp = S[diagonal1][diagonal2 - 1]
 				#print("diagonal 1 is " + str(diagonal1)+ " diagonal 2 is " + str(diagonal2) )
-				if S[diagonal1][diagonal2]!=S[diagonal1-1][diagonal2-1]:
-					noop=False
-				if diagonal1>0 or diagonal2>0:
-					print("matched letters are " + x[diagonal1] + " and " + y[diagonal2])
+				#print(str(S[diagonal1][diagonal2]) + " and " + str(S[diagonal1-1][diagonal2-1]))
+
+				if S[diagonal1][diagonal2]==S[diagonal1-1][diagonal2-1] and sub <= min(indelLeft,indelUp): #if no op
+					#print("diag 1 is " + str(diagonal1)+ " diag2 is "+str(diagonal2))
+					#print("matched letters are " + x[diagonal1] + " and " )#+ y[diagonal2])
 					currString.append(x[diagonal1])
 					diagonal1=diagonal1-1
 					diagonal2=diagonal2-1
 					count=count+1
-				if count>l:
-					subStrings.append(currString.reverse())
-					noop=False
 
-		print currString
-		if noop==True:
-			print currString
-			#subStrings.append(currString)
+				else:
+					break
+				if count==l:
+					#currString.append(x[diagonal1])
+					#print ("full string is " + str(currString[::-1]))
+					subStrings.append(''.join(currString[::-1]))
 
-print(commonSubstring(alignStrings(),2))
+					#print("found right length string " + str(subStrings), "diagonal is " + str(diagonal1))
+					break
+	for subber in subStrings:
+		print (subber + '\n')
 
+#print(alignStrings("exponential","polynomial"))
 
+print(commonSubstring(longString,88,alignStrings(longString,subString)))
 #print(alignStrings())
 #print(extractAlignment(alignStrings()))
 

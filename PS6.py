@@ -3,13 +3,13 @@ from random import randrange
 #x="abcdefg"
 #x="abxfg"
 
-#x="exponential"
-#y="polynomial"
+longString="exponential"
+subString="polynomial"
 #add blank spaces
 #longString=open("PS6DataFiles/csci3104_S2017_PS6_data_string_x.txt","r").read()
 #subString=open("PS6DataFiles/csci3104_S2017_PS6_data_string_y.txt","r").read()
-longString="abcdefgh"
-subString="abcde"
+#longString="abcddabcddddabc"
+#subString="dabc"
 
 
 #S = numpy.zeros((nx, ny),dtype=numpy.int)  # add row of zeros
@@ -63,8 +63,8 @@ def alignStrings(x,y):
 	for i in range(0,nx):
 		for j in range (0,ny):
 			cost(x,y,i,j,S)
-	#for row in S:
-		#print (str(row) + "\n")
+	for row in S:
+		print (str(row) + "\n")
 	return S
 
 def extractAlignment(S):
@@ -145,46 +145,46 @@ def commonSubstring(x,l,S):
 	x=" " + x
 	if l>len(x):
 		return "error"
-
+	print(S)
 	subStrings=[]
-	#print(len(S))
-	#print(len(S[0]))
+	rows = len(S)-1
+	columns=len(S[0])-1
 	#print(l)
 	currString=[]
-	#print(S[14][4])
-	for j in range(0,1): #iterate through
-		if j==0:
-			iterator=len(S)
-			fixed=len(S[0])
-		if j==1:
-			iterator=len(S[0])
-			fixed=len(S)
 
-		for i in range(iterator-1,0,-1):
-			#print ("      i is " + str(i))
-			#print("start is " + str(S[i][j]) + " next is " + str(S[i - 1][j - 1]))
-			#print("comparison is " + str(x[i]) + y[j])
-			if j==1:
-				diagonal1=iterator
-				diagonal2=fixed
+	for j in range(0,1): #iterate through
+		print("				j is " + str(j))
+		if j==0:
+			iterator=rows
+			fixed=columns
+		if j==1:
+			iterator=columns
+			fixed=rows
+
+		for i in range(iterator,0,-1):
 			if j==0:
+				diagonal1=i
+				diagonal2=fixed
+			if j==1:
 				diagonal1=fixed
-				diagonal2=iterator
+				diagonal2=i
 			count=0
 			currString=[]
+			print("		i" + str(i))
 
-			print(diagonal1)
-			print(diagonal2)
+			while diagonal1>0 and diagonal2>0:
 
-			while diagonal1>0 or diagonal2>0:
 				sub = S[diagonal1 - 1][diagonal2 - 1]
 				indelLeft = S[diagonal1 - 1][diagonal2]
 				indelUp = S[diagonal1][diagonal2 - 1]
+
+				print ("indelUp is " + str(indelUp) + "indelLeft is " + str(indelLeft) + "sub is " + str(sub))
 				#print("diagonal 1 is " + str(diagonal1)+ " diagonal 2 is " + str(diagonal2) )
-				#print(str(S[diagonal1][diagonal2]) + " and " + str(S[diagonal1-1][diagonal2-1]))
+				print(str(S[diagonal1][diagonal2]) + " and " + str(S[diagonal1-1][diagonal2-1]))
+				#print(str(S[diagonal1-2][diagonal2-2]) + " and " + str(S[diagonal1-1][diagonal2-1]))
 
 				if S[diagonal1][diagonal2]==S[diagonal1-1][diagonal2-1] and sub <= min(indelLeft,indelUp): #if no op
-					#print("diag 1 is " + str(diagonal1)+ " diag2 is "+str(diagonal2))
+					print("diag 1 is " + str(diagonal1)+ " diag2 is "+str(diagonal2))
 					#print("matched letters are " + x[diagonal1] + " and " )#+ y[diagonal2])
 					currString.append(x[diagonal1])
 					diagonal1=diagonal1-1
@@ -192,20 +192,27 @@ def commonSubstring(x,l,S):
 					count=count+1
 
 				else:
-					break
-				if count==l:
-					#currString.append(x[diagonal1])
-					#print ("full string is " + str(currString[::-1]))
-					subStrings.append(''.join(currString[::-1]))
+					if count>=l:
+						print("found substring long enough" + str(diagonal1) + str(diagonal2))
+						subStrings.append(''.join(currString[::-1]))
+					#print("got here")
+					diagonal1=diagonal1-1
+					diagonal2=diagonal2-1
+					currString=[]
+					count=0
 
-					#print("found right length string " + str(subStrings), "diagonal is " + str(diagonal1))
-					break
+
+
+			if count >= l:
+				#print("found something")
+				subStrings.append(''.join(currString[::-1]))
+
 	for subber in subStrings:
-		print (subber + '\n')
+		print ("subber is " + subber + '\n')
 
 #print(alignStrings("exponential","polynomial"))
-
-print(commonSubstring(longString,3,alignStrings(longString,subString)))
+print(alignStrings(longString,subString))
+#print(commonSubstring(longString,3,alignStrings(longString,subString)))
 #print(alignStrings())
 #print(extractAlignment(alignStrings()))
 

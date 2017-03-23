@@ -190,12 +190,12 @@ def commonSubstring(x,l,S):
 
 					#print("found right length string " + str(subStrings), "diagonal is " + str(diagonal1))
 					break
-	for subber in subStrings:
+	for subber in reversed(subStrings):
 		print (subber + '\n')
 
 #print(alignStrings("exponential","polynomial"))
 
-print(commonSubstring(longString,88,alignStrings(longString,subString)))
+print(commonSubstring(longString,80,alignStrings(longString,subString)))
 #print(alignStrings())
 #print(extractAlignment(alignStrings()))
 

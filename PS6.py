@@ -8,8 +8,8 @@ from random import randrange
 #add blank spaces
 #longString=open("PS6DataFiles/csci3104_S2017_PS6_data_string_x.txt","r").read()
 #subString=open("PS6DataFiles/csci3104_S2017_PS6_data_string_y.txt","r").read()
-#longString="abcdefgh"
-#subString="abcde"
+longString="abcdefgh"
+subString="abcde"
 
 
 #S = numpy.zeros((nx, ny),dtype=numpy.int)  # add row of zeros
@@ -152,19 +152,29 @@ def commonSubstring(x,l,S):
 	#print(l)
 	currString=[]
 	#print(S[14][4])
-	for j in range(len(S[0])-1,0,-1): #iterate through
-		noop = True
-		currString=[]
-		#print "     i is " + str(i)
-		#print("j is" + str(j))
-		for i in range(len(S)-1,0,-1):
+	for j in range(0,1): #iterate through
+		if j==0:
+			iterator=len(S)
+			fixed=len(S[0])
+		if j==1:
+			iterator=len(S[0])
+			fixed=len(S)
+
+		for i in range(iterator-1,0,-1):
 			#print ("      i is " + str(i))
 			#print("start is " + str(S[i][j]) + " next is " + str(S[i - 1][j - 1]))
 			#print("comparison is " + str(x[i]) + y[j])
-			diagonal1=i
-			diagonal2=j
+			if j==1:
+				diagonal1=iterator
+				diagonal2=fixed
+			if j==0:
+				diagonal1=fixed
+				diagonal2=iterator
 			count=0
 			currString=[]
+
+			print(diagonal1)
+			print(diagonal2)
 
 			while diagonal1>0 or diagonal2>0:
 				sub = S[diagonal1 - 1][diagonal2 - 1]
@@ -195,7 +205,7 @@ def commonSubstring(x,l,S):
 
 #print(alignStrings("exponential","polynomial"))
 
-print(commonSubstring(longString,88,alignStrings(longString,subString)))
+print(commonSubstring(longString,3,alignStrings(longString,subString)))
 #print(alignStrings())
 #print(extractAlignment(alignStrings()))
 
